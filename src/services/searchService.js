@@ -1,6 +1,6 @@
 import API from "../API";
 
-const key = "AIzaSyDzfj0UMKAesKB3EVdx2Xm444lLKmhxAtY";
+const key = "AIzaSyCJ1JKXiWxOZHKry36sXddbx7TwUEssoz4";
 const baseSearchUrl = "search?";
 let api = {
   q: "",

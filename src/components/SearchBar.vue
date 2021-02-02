@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import SearchService from "../services/searchService";
 export default {
   name: "SearchBar",
   data() {
@@ -54,25 +53,10 @@ export default {
       this.viewSearchField = !this.viewSearchField;
     },
     search(searchString) {
-      SearchService.search(searchString)
-        .then(res => {
-          console.log(res.data);
-          this.$router.currentRoute.name !== "Search"
-            ? this.$router
-                .push({
-                  name: "Search",
-                  params: { results: res }
-                })
-                .catch(() => {})
-            : this.$router.push("/").catch(() => {});
-          this.$router
-            .push({
-              name: "Search",
-              params: { results: res }
-            })
-            .catch(() => {});
-        })
-        .catch(error => console.log(error));
+      this.$router.push({
+        name: "Search",
+        query: { query: searchString }
+      });
     }
   }
 };

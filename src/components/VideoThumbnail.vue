@@ -1,7 +1,7 @@
 <template>
-  <div v-if="video" class="item-container">
+  <div v-if="videoDetails && video" class="item-container">
     <div class="img-container">
-      <div class="video-duration">duration</div>
+      <div class="number-of-videos">{{videoDetails.contentDetails.duration | formatVideoDuration}}</div>
       <a
         :href="'https://www.youtube.com/watch?v=' + video.id.videoId"
         target="_blank"
@@ -18,7 +18,7 @@
       <h6 class="card-title">{{ video.snippet.title }}</h6>
       <p class="card-subtitle mb-2 text-muted">
         {{ video.snippet.channelTitle }} |
-        {{ video.snippet.publishedAt | formatDate }}
+        {{ video.snippet.publishedAt }}
       </p>
       <p class="card-text">{{ video.snippet.description }}</p>
     </div>
@@ -27,14 +27,10 @@
 
 <script>
 export default {
-  name: "VideoItem",
+  name: "VideoThumbnail",
   props: {
-    video: Object
-  },
-  data() {
-    return {
-      showFilters: false
-    };
+    video: Object,
+    videoDetails: Object
   }
 };
 </script>
@@ -73,7 +69,7 @@ $mobile: 640px;
   font-size: 12px;
   color: #9b9b9b;
 }
-.video-duration {
+.number-of-videos {
   border-radius: 4px;
   width: fit-content;
   padding: 0 5px 2px 5px;

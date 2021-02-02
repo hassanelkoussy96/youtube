@@ -94,17 +94,7 @@ export default {
   methods: {
     onFilterChange(filterType, value) {
       this.setSelectedFilters(filterType, value);
-      SearchService.applyFilters(filterType, value)
-        .then(res => {
-          this.$router.push("/").catch(() => {});
-          this.$router
-            .push({
-              name: "Search",
-              params: { results: res }
-            })
-            .catch(() => {});
-        })
-        .catch(error => console.log(error));
+      this.$emit("filtersChanged", { filterType: filterType, value: value });
     },
     setSelectedFilters(filterType, value) {
       filterType === "uploadDate"
