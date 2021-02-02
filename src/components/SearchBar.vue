@@ -30,23 +30,12 @@
 </template>
 
 <script>
-import SearchService from "../services/searchService";
 export default {
   name: "SearchBar",
   data() {
     return {
       searchString: null,
-      key: "AIzaSyDzfj0UMKAesKB3EVdx2Xm444lLKmhxAtY",
-      viewSearchField: true,
-      baseSearchUrl: "search?",
-      api: {
-        q: "",
-        part: "snippet",
-        type: null,
-        uploadDate: null,
-        order: "relevance",
-        maxResults: 10
-      }
+      viewSearchField: true
     };
   },
   methods: {
@@ -54,25 +43,19 @@ export default {
       this.viewSearchField = !this.viewSearchField;
     },
     search(searchString) {
-      SearchService.search(searchString)
-        .then(res => {
-          console.log(res.data);
-          this.$router.currentRoute.name !== "Search"
-            ? this.$router
-                .push({
-                  name: "Search",
-                  params: { results: res }
-                })
-                .catch(() => {})
-            : this.$router.push("/").catch(() => {});
-          this.$router
-            .push({
-              name: "Search",
-              params: { results: res }
-            })
-            .catch(() => {});
-        })
-        .catch(error => console.log(error));
+      if (this.$router.currentRoute.name === "Search") {
+        this.$router.push("/").then(() => {
+          this.$router.push({
+            name: "Search",
+            query: { query: searchString }
+          });
+        });
+      } else {
+        this.$router.push({
+          name: "Search",
+          query: { query: searchString }
+        });
+      }
     }
   }
 };

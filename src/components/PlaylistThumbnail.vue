@@ -1,35 +1,41 @@
 <template>
-  <div v-if="video" class="item-container">
+  <div v-if="playlist && playlistDetails" class="item-container">
     <div class="img-container">
-      <div class="video-duration">duration</div>
+      <div class="number-of-videos">
+        <h4 class="number-of-videos-text">
+          {{ playlistDetails.contentDetails.itemCount }}
+        </h4>
+        <font-awesome-icon icon="bars" />
+      </div>
       <a
-        :href="'https://www.youtube.com/watch?v=' + video.id.videoId"
+        :href="'https://www.youtube.com/watch?v=' + playlist.id.videoId"
         target="_blank"
         class="card-img"
       >
         <img
           class="card-img-top"
-          :src="video.snippet.thumbnails.medium.url"
+          :src="playlist.snippet.thumbnails.medium.url"
           alt="YouTube thumbnail"
         />
       </a>
     </div>
     <div class="card-body">
-      <h6 class="card-title">{{ video.snippet.title }}</h6>
+      <h6 class="card-title">{{ playlist.snippet.title }}</h6>
       <p class="card-subtitle mb-2 text-muted">
-        {{ video.snippet.channelTitle }} |
-        {{ video.snippet.publishedAt | formatDate }}
+        {{ playlist.snippet.channelTitle }} |
+        {{ playlist.snippet.publishedAt | formatUploadDate }}
       </p>
-      <p class="card-text">{{ video.snippet.description }}</p>
+      <p class="card-text">{{ playlist.snippet.description }}</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "VideoItem",
+  name: "PlaylistThumbnail",
   props: {
-    video: Object
+    playlist: Object,
+    playlistDetails: Object
   },
   data() {
     return {
@@ -73,16 +79,22 @@ $mobile: 640px;
   font-size: 12px;
   color: #9b9b9b;
 }
-.video-duration {
-  border-radius: 4px;
-  width: fit-content;
+.number-of-videos {
+  width: 30%;
+  height: 96%;
   padding: 0 5px 2px 5px;
   position: absolute;
   background-color: rgba(54, 54, 53, 0.9);
-  right: 5px;
-  bottom: 10px;
+  right: 0;
+  top: 0;
   color: #ffffff;
+  justify-content: center;
   font-size: 1.1vw;
+  text-align: center;
+}
+.number-of-videos-text {
+  margin-top: 65%;
+  margin-bottom: 2px;
 }
 .img-container {
   width: 30%;

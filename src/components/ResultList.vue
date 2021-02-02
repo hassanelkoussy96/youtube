@@ -1,21 +1,39 @@
 <template>
-  <div v-if="results">
-    <div v-bind:key="video.id.videoId" v-for="video of results.data.items">
-      <VideoItem v-bind:video="video" />
+  <div v-if="resultsDetails && results">
+    <div v-bind:key="index" v-for="(item, index) of results.data.items">
+      <VideoThumbnail
+        v-if="item.id.kind === 'youtube#video'"
+        v-bind:video="item"
+        v-bind:videoDetails="resultsDetails.get(item.id.videoId)"
+      />
+      <PlaylistThumbnail
+        v-if="item.id.kind === 'youtube#playlist'"
+        v-bind:playlist="item"
+        v-bind:playlistDetails="resultsDetails.get(item.id.playlistId)"
+      />
+      <ChannelThumbnail
+        v-if="item.id.kind === 'youtube#channel'"
+        v-bind:channel="item"
+        v-bind:channelDetails="resultsDetails.get(item.id.channelId)"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import VideoItem from "../components/VideoItem";
-
+import VideoThumbnail from "./VideoThumbnail";
+import PlaylistThumbnail from "./PlaylistThumbnail";
+import ChannelThumbnail from "./ChannelThumbnail";
 export default {
   name: "ResultList",
   props: {
-    results: Object
+    results: Object,
+    resultsDetails: Map
   },
   components: {
-    VideoItem
+    VideoThumbnail,
+    PlaylistThumbnail,
+    ChannelThumbnail
   }
 };
 </script>
