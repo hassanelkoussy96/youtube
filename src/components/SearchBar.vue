@@ -35,17 +35,7 @@ export default {
   data() {
     return {
       searchString: null,
-      key: "AIzaSyDzfj0UMKAesKB3EVdx2Xm444lLKmhxAtY",
-      viewSearchField: true,
-      baseSearchUrl: "search?",
-      api: {
-        q: "",
-        part: "snippet",
-        type: null,
-        uploadDate: null,
-        order: "relevance",
-        maxResults: 10
-      }
+      viewSearchField: true
     };
   },
   methods: {
@@ -53,10 +43,19 @@ export default {
       this.viewSearchField = !this.viewSearchField;
     },
     search(searchString) {
-      this.$router.push({
-        name: "Search",
-        query: { query: searchString }
-      });
+      if (this.$router.currentRoute.name === "Search") {
+        this.$router.push("/").then(() => {
+          this.$router.push({
+            name: "Search",
+            query: { query: searchString }
+          });
+        });
+      } else {
+        this.$router.push({
+          name: "Search",
+          query: { query: searchString }
+        });
+      }
     }
   }
 };

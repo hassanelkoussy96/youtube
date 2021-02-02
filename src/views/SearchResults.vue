@@ -80,8 +80,6 @@ export default {
                       channelDetails.data.items?.forEach(channel => {
                         this.detailsMap.set(channel.id, channel);
                       });
-                      console.log(this.detailsMap);
-                      console.log(res.data.items);
                       this.results = res;
                     })
                     .catch(error => console.log(error));
@@ -100,6 +98,9 @@ export default {
         .catch(error => console.log(error));
     },
     separateItems(items) {
+      this.videosIds = "id=";
+      this.playlistsIds = "id=";
+      this.channelsIds = "id=";
       items?.forEach(item => {
         if (item.id.kind === "youtube#video") {
           this.videosIds += "," + item.id.videoId;

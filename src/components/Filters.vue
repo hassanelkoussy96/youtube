@@ -82,8 +82,8 @@ export default {
       ],
       sortByRows: [
         { id: "relevance", name: "Relevance" },
-        { id: "uploadDate", name: "Upload date" },
-        { id: "viewCount", name: "View count" },
+        { id: "date", name: "Upload date" },
+        { id: "videoCount", name: "View count" },
         { id: "rating", name: "Rating" }
       ],
       selectedUploadDateFilter: SearchService.getApi().uploadDate,

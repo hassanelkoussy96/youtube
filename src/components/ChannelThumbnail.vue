@@ -1,46 +1,35 @@
 <template>
-  <div v-if="playlist && playlistDetails" class="item-container">
+  <div v-if="channelDetails && channel" class="item-container">
     <div class="img-container">
-      <div class="number-of-videos">
-        <h4 class="number-of-videos-text">
-          {{ playlistDetails.contentDetails.itemCount }}
-        </h4>
-        <font-awesome-icon icon="bars" />
-      </div>
       <a
-        :href="'https://www.youtube.com/watch?v=' + playlist.id.videoId"
+        :href="'https://www.youtube.com/watch?v=' + channel.id.videoId"
         target="_blank"
         class="card-img"
       >
         <img
           class="card-img-top"
-          :src="playlist.snippet.thumbnails.medium.url"
+          :src="channel.snippet.thumbnails.medium.url"
           alt="YouTube thumbnail"
         />
       </a>
     </div>
     <div class="card-body">
-      <h6 class="card-title">{{ playlist.snippet.title }}</h6>
+      <h6 class="card-title">{{ channel.snippet.title }}</h6>
       <p class="card-subtitle mb-2 text-muted">
-        {{ playlist.snippet.channelTitle }} |
-        {{ playlist.snippet.publishedAt | formatUploadDate }}
+        {{ channel.snippet.channelTitle }} |
+        {{ channel.snippet.publishedAt | formatUploadDate }}
       </p>
-      <p class="card-text">{{ playlist.snippet.description }}</p>
+      <p class="card-text">{{ channel.snippet.description }}</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "PlaylistThumbnail",
+  name: "ChannelThumbnail",
   props: {
-    playlist: Object,
-    playlistDetails: Object
-  },
-  data() {
-    return {
-      showFilters: false
-    };
+    channel: Object,
+    channelDetails: Object
   }
 };
 </script>
@@ -55,7 +44,8 @@ $mobile: 640px;
   overflow: auto;
 }
 .card-img-top {
-  width: 100%;
+  width: 60%;
+  border-radius: 50%;
 }
 .card-body {
   display: inline-block;
@@ -65,6 +55,7 @@ $mobile: 640px;
 .card-img {
   display: inline-block;
   width: 100%;
+  text-align: center;
 }
 .card-title {
   font-size: 16px;
@@ -80,21 +71,15 @@ $mobile: 640px;
   color: #9b9b9b;
 }
 .number-of-videos {
-  width: 30%;
-  height: 96%;
+  border-radius: 4px;
+  width: fit-content;
   padding: 0 5px 2px 5px;
   position: absolute;
   background-color: rgba(54, 54, 53, 0.9);
-  right: 0;
-  top: 0;
+  right: 5px;
+  bottom: 10px;
   color: #ffffff;
-  justify-content: center;
   font-size: 1.1vw;
-  text-align: center;
-}
-.number-of-videos-text {
-  margin-top: 65%;
-  margin-bottom: 2px;
 }
 .img-container {
   width: 30%;

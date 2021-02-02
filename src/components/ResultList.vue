@@ -8,13 +8,13 @@
       />
       <PlaylistThumbnail
         v-if="item.id.kind === 'youtube#playlist'"
-        v-bind:video="item"
+        v-bind:playlist="item"
         v-bind:playlistDetails="resultsDetails.get(item.id.playlistId)"
       />
-      <VideoThumbnail
+      <ChannelThumbnail
         v-if="item.id.kind === 'youtube#channel'"
-        v-bind:video="item"
-        v-bind:videoDetails="resultsDetails.get(item.id.channelId)"
+        v-bind:channel="item"
+        v-bind:channelDetails="resultsDetails.get(item.id.channelId)"
       />
     </div>
   </div>
@@ -23,7 +23,7 @@
 <script>
 import VideoThumbnail from "./VideoThumbnail";
 import PlaylistThumbnail from "./PlaylistThumbnail";
-
+import ChannelThumbnail from "./ChannelThumbnail";
 export default {
   name: "ResultList",
   props: {
@@ -32,7 +32,8 @@ export default {
   },
   components: {
     VideoThumbnail,
-    PlaylistThumbnail
+    PlaylistThumbnail,
+    ChannelThumbnail
   }
 };
 </script>

@@ -1,12 +1,10 @@
 <template>
   <div v-if="videoDetails && video" class="item-container">
     <div class="img-container">
-      <div class="number-of-videos">{{videoDetails.contentDetails.duration | formatVideoDuration}}</div>
-      <a
-        :href="'https://www.youtube.com/watch?v=' + video.id.videoId"
-        target="_blank"
-        class="card-img"
-      >
+      <div class="number-of-videos">
+        {{ videoDetails.contentDetails.duration | formatVideoDuration }}
+      </div>
+      <a v-on:click="onVideoClicked" target="_blank" class="card-img">
         <img
           class="card-img-top"
           :src="video.snippet.thumbnails.medium.url"
@@ -18,7 +16,7 @@
       <h6 class="card-title">{{ video.snippet.title }}</h6>
       <p class="card-subtitle mb-2 text-muted">
         {{ video.snippet.channelTitle }} |
-        {{ video.snippet.publishedAt }}
+        {{ video.snippet.publishedAt | formatUploadDate }}
       </p>
       <p class="card-text">{{ video.snippet.description }}</p>
     </div>
@@ -31,6 +29,14 @@ export default {
   props: {
     video: Object,
     videoDetails: Object
+  },
+  methods: {
+    onVideoClicked() {
+      this.$router.push({
+        name: "Video",
+        params: { id: this.video.id.videoId }
+      });
+    }
   }
 };
 </script>
@@ -42,7 +48,7 @@ $mobile: 640px;
 .item-container {
   width: 60%;
   margin: 0 auto 10px auto;
-  overflow: auto;
+  overflow: hidden;
 }
 .card-img-top {
   width: 100%;
@@ -55,6 +61,7 @@ $mobile: 640px;
 .card-img {
   display: inline-block;
   width: 100%;
+  cursor: pointer;
 }
 .card-title {
   font-size: 16px;
@@ -68,6 +75,7 @@ $mobile: 640px;
 .card-text {
   font-size: 12px;
   color: #9b9b9b;
+  max-height: 60px;
 }
 .number-of-videos {
   border-radius: 4px;
