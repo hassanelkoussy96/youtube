@@ -1,7 +1,12 @@
 <template>
   <div class="nav-bar-container">
-    <div class="nav-bar">
-      <img src="../assets/youtube-logo.png" alt="" class="desktop-logo" />
+    <div>
+      <img
+        src="../assets/youtube-logo.png"
+        alt=""
+        class="desktop-logo"
+        v-on:click="navigateToHome"
+      />
       <font-awesome-icon :icon="['fab', 'youtube']" class="mobile-logo" />
       <label
         v-bind:class="{
@@ -56,6 +61,10 @@ export default {
           query: { query: searchString }
         });
       }
+    },
+    navigateToHome() {
+      this.searchString = null;
+      this.$router.push("/").catch(() => {});
     }
   }
 };
@@ -71,11 +80,6 @@ $dark-grey: #9b9b9b;
   height: 50px;
   background-color: #ffffff;
   text-align: center;
-}
-.nav-bar {
-  /*margin-left: auto;*/
-  /*margin-right: auto;*/
-  /*width: 100%;*/
 }
 .youtube-text {
   display: none;
@@ -118,6 +122,7 @@ $dark-grey: #9b9b9b;
   width: 80px;
   vertical-align: middle;
   margin-right: 179px;
+  cursor: pointer;
 }
 .mobile-logo {
   display: none;

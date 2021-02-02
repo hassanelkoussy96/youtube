@@ -24,28 +24,20 @@ export default {
       videoUrl: "https://www.youtube.com/watch?v=",
       results: null,
       detailsMap: null,
-      videosIds: "id=",
-      playlistsIds: "id="
+      videosIds: "id="
     };
   },
   created() {
     const queryParams = this.$router.currentRoute.params;
     SearchService.getRelevantVideos(queryParams).then(res => {
-      this.separateItems(res.data.items);
+      this.prepareQuery(res.data.items);
       SearchDetailsService.getVideosDetails(this.videosIds)
         .then(videoDetails => {
-          SearchDetailsService.getPlaylistsDetails(this.playlistsIds)
-            .then(playlistDetails => {
-              this.detailsMap = new Map();
-              videoDetails.data.items?.forEach(video => {
-                this.detailsMap.set(video.id, video);
-              });
-              playlistDetails.data.items?.forEach(playlist => {
-                this.detailsMap.set(playlist.id, playlist);
-              });
-              this.results = res;
-            })
-            .catch(error => console.log(error));
+          this.detailsMap = new Map();
+          videoDetails.data.items?.forEach(video => {
+            this.detailsMap.set(video.id, video);
+          });
+          this.results = res;
         })
         .catch(error => console.log(error));
     });
@@ -55,15 +47,9 @@ export default {
     };
   },
   methods: {
-    separateItems(items) {
+    prepareQuery(items) {
       items?.forEach(item => {
-        if (item.id.kind === "youtube#video") {
-          this.videosIds += "," + item.id.videoId;
-        } else if (item.id.kind === "youtube#playlist") {
-          this.playlistsIds += "," + item.id.playlistId;
-        } else {
-          this.channelsIds += "," + item.id.channelId;
-        }
+        this.videosIds += "," + item.id.videoId;
       });
     }
   },
