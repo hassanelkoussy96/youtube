@@ -182,6 +182,8 @@ $dark-grey: #9b9b9b;
     color: #ffffff;
     float: left;
     font-weight: 600;
+    max-width: 285px;
+    overflow: hidden;
   }
   .nav-bar-container {
     position: inherit;

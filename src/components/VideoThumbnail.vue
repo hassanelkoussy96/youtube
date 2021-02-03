@@ -1,10 +1,10 @@
 <template>
-  <div v-if="videoDetails && video" class="item-container">
+  <div v-if="videoDetails && video" class="item-container" v-on:click="onVideoClicked">
     <div class="img-container">
       <div class="number-of-videos">
         {{ videoDetails.contentDetails.duration | formatVideoDuration }}
       </div>
-      <a v-on:click="onVideoClicked" target="_blank" class="card-img">
+      <a target="_blank" class="card-img">
         <img
           class="card-img-top"
           :src="video.snippet.thumbnails.medium.url"
@@ -59,6 +59,7 @@ $mobile: 640px;
   width: 60%;
   margin: 0 auto 10px auto;
   overflow: hidden;
+  cursor: pointer;
 }
 .card-img-top {
   width: 100%;

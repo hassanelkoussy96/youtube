@@ -13,25 +13,28 @@
 
 <script>
 import ResultList from "../components/ResultList";
-import SearchService from "../services/searchService";
 import SearchDetailsService from "../services/SearchDetailsService";
+import PlaylistService from "../services/PlaylistService";
 
 export default {
-  name: "VideoPlayer",
+  name: "PlaylistPlayer",
   data: () => {
     return {
       videoId: null,
       videoUrl: "https://www.youtube.com/watch?v=",
       results: null,
       detailsMap: null,
-      videosIds: "id="
+      playlistVideosIds: "id="
     };
   },
   created() {
     const queryParams = this.$router.currentRoute.params;
-    SearchService.getRelevantVideos(queryParams).then(res => {
-      this.prepareQuery(res.data.items);
-      SearchDetailsService.getVideosDetails(this.videosIds)
+
+    PlaylistService.getPlaylistVideos(queryParams.id).then(res => {
+      this.videoId = res.data.items[0].snippet.resourceId.videoId;
+      this.videoUrl = this.videoUrl += this.videoId;
+      this.preparePlaylistQuery(res.data.items);
+      SearchDetailsService.getVideosDetails(this.playlistVideosIds)
         .then(videoDetails => {
           this.detailsMap = new Map();
           videoDetails.data.items?.forEach(video => {
@@ -41,15 +44,11 @@ export default {
         })
         .catch(error => console.log(error));
     });
-    return {
-      videoId: queryParams.id,
-      videoUrl: (this.videoUrl += queryParams.id)
-    };
   },
   methods: {
-    prepareQuery(items) {
+    preparePlaylistQuery(items) {
       items?.forEach(item => {
-        this.videosIds += "," + item.id.videoId;
+        this.playlistVideosIds += item.snippet.resourceId.videoId + ",";
       });
     }
   },

@@ -22,6 +22,12 @@ const routes = [
     name: "Channel",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Channel")
+  },
+  {
+    path: "/playlist/:id",
+    name: "Playlist",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/PlaylistPlayer")
   }
 ];
 

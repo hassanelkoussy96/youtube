@@ -1,5 +1,9 @@
 <template>
-  <div v-if="playlist && playlistDetails" class="item-container">
+  <div
+    v-if="playlist && playlistDetails"
+    class="item-container"
+    v-on:click="onPlaylistClicked"
+  >
     <div class="img-container">
       <div class="number-of-videos">
         <h4 class="number-of-videos-text">
@@ -7,11 +11,7 @@
         </h4>
         <font-awesome-icon icon="bars" />
       </div>
-      <a
-        :href="'https://www.youtube.com/watch?v=' + playlist.id.videoId"
-        target="_blank"
-        class="card-img"
-      >
+      <a target="_blank" class="card-img">
         <img
           class="card-img-top"
           :src="playlist.snippet.thumbnails.medium.url"
@@ -27,6 +27,8 @@
       </p>
       <p class="card-subtitle mb-2 text-muted mobile-channel-title">
         {{ playlist.snippet.channelTitle }}
+      </p>
+
       <p class="card-text">{{ playlist.snippet.description }}</p>
     </div>
   </div>
@@ -43,6 +45,21 @@ export default {
     return {
       showFilters: false
     };
+  },
+  methods: {
+    onPlaylistClicked() {
+      if (this.playlist.id.playlistId) {
+        this.$router.push({
+          name: "Playlist",
+          params: { id: this.playlist.id.playlistId }
+        });
+      } else {
+        this.$router.push({
+          name: "Playlist",
+          params: { id: this.playlist.snippet.resourceId.playlistId }
+        });
+      }
+    }
   }
 };
 </script>
@@ -55,6 +72,7 @@ $mobile: 640px;
   width: 60%;
   margin: 0 auto 10px auto;
   overflow: auto;
+  cursor: pointer;
 }
 .card-img-top {
   width: 100%;
