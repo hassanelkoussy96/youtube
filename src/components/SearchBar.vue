@@ -80,6 +80,7 @@ $dark-grey: #9b9b9b;
   padding-top: 13px;
   height: 50px;
   background-color: #ffffff;
+  opacity: 0.99;
   text-align: center;
   position: fixed;
   z-index: 100;
@@ -154,6 +155,7 @@ $dark-grey: #9b9b9b;
   }
   .nav-bar-container {
     background-color: #e62117;
+    opacity: 1;
   }
   .mobile-search-icon {
     display: inline;
