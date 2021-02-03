@@ -1,7 +1,11 @@
 <template>
-  <div v-if="channelDetails && channel" class="item-container">
+  <div
+    v-if="channelDetails && channel"
+    class="item-container"
+    v-on:click="onChannelClicked"
+  >
     <div class="img-container">
-      <a target="_blank" class="card-img" v-on:click="onChannelClicked">
+      <a target="_blank" class="card-img">
         <img
           class="card-img-top"
           :src="channel.snippet.thumbnails.medium.url"
@@ -17,6 +21,8 @@
       </p>
       <p class="card-subtitle mb-2 text-muted mobile-channel-title">
         {{ channel.snippet.channelTitle }}
+      </p>
+
       <p class="card-text">{{ channel.snippet.description }}</p>
     </div>
   </div>
@@ -48,6 +54,7 @@ $mobile: 640px;
   width: 60%;
   margin: 0 auto 10px auto;
   overflow: auto;
+  cursor: pointer;
 }
 .card-img-top {
   width: 60%;

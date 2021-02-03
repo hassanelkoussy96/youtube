@@ -51,7 +51,6 @@ export default {
     const queryParams = this.$router.currentRoute.params;
     ChannelService.getChannelDetails(queryParams.id).then(res => {
       this.channelFullDetails = res.data.items[0];
-      console.log(res.data.items[0]);
       PlaylistService.getPlaylistVideos(
         res.data.items[0].contentDetails.relatedPlaylists.uploads
       ).then(listOfChannelItems => {
@@ -148,15 +147,17 @@ $mobile: 640px;
   border-radius: 50%;
   position: absolute;
   width: 100px;
-  top: 100px;
+  top: 163px;
   left: 20px;
 }
 .card-img-background {
   width: 100%;
+  margin-top: -20%;
 }
 .background-img-container {
   height: 150px;
   overflow: hidden;
+  margin-top: 63px;
 }
 .title-text {
   margin-left: 138px;
@@ -173,6 +174,15 @@ $mobile: 640px;
   }
   .title-text {
     margin-bottom: 10px;
+  }
+  .card-img-background {
+    margin-top: 0;
+  }
+  .background-img-container {
+    margin-top: 0;
+  }
+  .circular-img {
+    top: 100px;
   }
 }
 </style>
