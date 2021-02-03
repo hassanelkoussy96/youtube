@@ -26,7 +26,7 @@
         {{ playlist.snippet.publishedAt | formatUploadDate }}
       </p>
       <p class="card-subtitle mb-2 text-muted mobile-channel-title">
-        {{ video.snippet.channelTitle }}
+        {{ playlist.snippet.channelTitle }}
       <p class="card-text">{{ playlist.snippet.description }}</p>
     </div>
   </div>

@@ -81,6 +81,9 @@ $dark-grey: #9b9b9b;
   height: 50px;
   background-color: #ffffff;
   text-align: center;
+  position: fixed;
+  z-index: 100;
+  width: 100%;
 }
 .youtube-text {
   display: none;
@@ -177,6 +180,9 @@ $dark-grey: #9b9b9b;
     color: #ffffff;
     float: left;
     font-weight: 600;
+  }
+  .nav-bar-container {
+    position: inherit;
   }
 }
 </style>

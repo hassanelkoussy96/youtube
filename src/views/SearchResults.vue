@@ -27,7 +27,7 @@
       class="mobile-filters"
       v-on:filtersChanged="applyFilter($event)"
     />
-    <div v-if="results && detailsMap">
+    <div v-if="results && detailsMap && !isLoading">
       <ResultList
         v-bind:results="results"
         v-bind:resultsDetails="detailsMap"
@@ -49,12 +49,26 @@
       />
       <h4 class="mobile-loader-text">Loading</h4>
     </div>
+    <div v-if="isLoadingMoreItems" class="desktop-more-items-loader-container">
+      <img
+        src="../assets/desktop_loading_icon.gif"
+        alt="Loading..."
+        class="desktop-more-items-loader"
+      />
+    </div>
+    <div v-if="isLoadingMoreItems" class="mobile-more-items-loader-container">
+      <img
+        src="../assets/mobile_loading_icn.gif"
+        alt="Loading..."
+        class="mobile-more-items-loader"
+      />
+    </div>
     <div
       v-if="!isLoading"
       v-on:click="this.loadMoreItems"
       class="load-more-container"
     >
-      <h4 class="load-more">Show more items</h4>
+      <h4 v-if="!isLoadingMoreItems" class="load-more">Show more items</h4>
     </div>
   </div>
 </template>
@@ -81,7 +95,8 @@ export default {
       playlistsIds: "id=",
       channelsIds: "id=",
       detailsMap: null,
-      isLoading: true
+      isLoading: true,
+      isLoadingMoreItems: false
     };
   },
   created() {
@@ -124,9 +139,35 @@ export default {
         .catch(error => console.log(error));
     },
     applyFilter(filters) {
+      this.isLoading = true;
+      this.showFilters = false;
       SearchService.applyFilters(filters.filterType, filters.value)
         .then(res => {
-          this.results = res;
+          this.separateItems(res.data.items);
+          SearchDetailsService.getVideosDetails(this.videosIds)
+            .then(videoDetails => {
+              SearchDetailsService.getPlaylistsDetails(this.playlistsIds)
+                .then(playlistDetails => {
+                  SearchDetailsService.getChannelsDetails(this.channelsIds)
+                    .then(channelDetails => {
+                      this.detailsMap = new Map();
+                      videoDetails.data.items?.forEach(video => {
+                        this.detailsMap.set(video.id, video);
+                      });
+                      playlistDetails.data.items?.forEach(playlist => {
+                        this.detailsMap.set(playlist.id, playlist);
+                      });
+                      channelDetails.data.items?.forEach(channel => {
+                        this.detailsMap.set(channel.id, channel);
+                      });
+                      this.results = res;
+                      this.isLoading = false;
+                    })
+                    .catch(error => console.log(error));
+                })
+                .catch(error => console.log(error));
+            })
+            .catch(error => console.log(error));
         })
         .catch(error => console.log(error));
     },
@@ -145,13 +186,37 @@ export default {
       });
     },
     loadMoreItems() {
+      this.isLoadingMoreItems = true;
       SearchService.applyFilters(
         "maxResults",
         (SearchService.getApi().maxResults += 10)
       )
         .then(res => {
-          console.log(res)
-          this.results = res;
+          this.separateItems(res.data.items);
+          SearchDetailsService.getVideosDetails(this.videosIds)
+            .then(videoDetails => {
+              SearchDetailsService.getPlaylistsDetails(this.playlistsIds)
+                .then(playlistDetails => {
+                  SearchDetailsService.getChannelsDetails(this.channelsIds)
+                    .then(channelDetails => {
+                      this.detailsMap = new Map();
+                      videoDetails.data.items?.forEach(video => {
+                        this.detailsMap.set(video.id, video);
+                      });
+                      playlistDetails.data.items?.forEach(playlist => {
+                        this.detailsMap.set(playlist.id, playlist);
+                      });
+                      channelDetails.data.items?.forEach(channel => {
+                        this.detailsMap.set(channel.id, channel);
+                      });
+                      this.results = res;
+                      this.isLoadingMoreItems = false;
+                    })
+                    .catch(error => console.log(error));
+                })
+                .catch(error => console.log(error));
+            })
+            .catch(error => console.log(error));
         })
         .catch(error => console.log(error));
     }
@@ -166,7 +231,7 @@ $mobile: 640px;
 .filter-icon-and-text {
   color: #9b9b9b;
   float: right;
-  margin: 10px 10px 0 0;
+  margin: 63px 10px 0 0;
   cursor: pointer;
 }
 .top-bar {
@@ -182,7 +247,7 @@ $mobile: 640px;
 }
 .results {
   display: inline-block;
-  margin: 10px 0 0 0;
+  margin: 63px 0 0 0;
   font-weight: inherit;
 }
 .filter-icon-and-text-bold {
@@ -225,6 +290,15 @@ $mobile: 640px;
   margin-bottom: 0;
   margin-top: 0;
 }
+.desktop-more-items-loader {
+  width: 40px;
+}
+.desktop-more-items-loader-container {
+  text-align: center;
+}
+.mobile-more-items-loader-container {
+  display: none;
+}
 @media (max-width: $mobile) {
   .top-bar {
     display: none;
@@ -247,6 +321,17 @@ $mobile: 640px;
   .mobile-loader-text {
     color: #959393;
     margin-top: 0;
+  }
+  .desktop-more-items-loader-container {
+    display: none;
+  }
+  .mobile-more-items-loader-container {
+    text-align: center;
+    display: block;
+  }
+  .mobile-more-items-loader {
+    display: none;
+    width: 70px;
   }
 }
 </style>
