@@ -21,10 +21,12 @@
     </div>
     <div class="card-body">
       <h6 class="card-title">{{ playlist.snippet.title }}</h6>
-      <p class="card-subtitle mb-2 text-muted">
+      <p class="card-subtitle mb-2 text-muted desktop-channel-title">
         {{ playlist.snippet.channelTitle }} |
         {{ playlist.snippet.publishedAt | formatUploadDate }}
       </p>
+      <p class="card-subtitle mb-2 text-muted mobile-channel-title">
+        {{ video.snippet.channelTitle }}
       <p class="card-text">{{ playlist.snippet.description }}</p>
     </div>
   </div>
@@ -105,6 +107,19 @@ $mobile: 640px;
   .item-container {
     width: 99%;
     padding: 0 0 5px 5px;
+  }
+  .card-title {
+    font-size: 13px;
+    margin: 0 0 0 2px;
+  }
+  .card-text {
+    display: none;
+  }
+  .desktop-channel-title {
+    display: none;
+  }
+  .mobile-channel-title {
+    display: block;
   }
 }
 </style>

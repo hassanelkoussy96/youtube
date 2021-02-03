@@ -6,10 +6,22 @@
         v-bind:video="item"
         v-bind:videoDetails="resultsDetails.get(item.id.videoId)"
       />
+      <VideoThumbnail
+        v-if="item.snippet.resourceId && item.snippet.resourceId.kind === 'youtube#video'"
+        v-bind:video="item"
+        v-bind:videoDetails="
+          resultsDetails.get(item.snippet.resourceId.videoId)
+        "
+      />
       <PlaylistThumbnail
         v-if="item.id.kind === 'youtube#playlist'"
         v-bind:playlist="item"
         v-bind:playlistDetails="resultsDetails.get(item.id.playlistId)"
+      />
+      <PlaylistThumbnail
+        v-if="item.snippet.resourceId && item.snippet.resourceId.kind === 'youtube#playlist'"
+        v-bind:playlist="item"
+        v-bind:playlistDetails="resultsDetails.get(item.snippet.resourceId.playlistId)"
       />
       <ChannelThumbnail
         v-if="item.id.kind === 'youtube#channel'"
@@ -64,5 +76,6 @@ $mobile: 640px;
   font-weight: 600;
 }
 @media (max-width: $mobile) {
+
 }
 </style>

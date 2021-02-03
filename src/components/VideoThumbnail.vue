@@ -14,9 +14,12 @@
     </div>
     <div class="card-body">
       <h6 class="card-title">{{ video.snippet.title }}</h6>
-      <p class="card-subtitle mb-2 text-muted">
+      <p class="card-subtitle mb-2 text-muted desktop-channel-title">
         {{ video.snippet.channelTitle }} |
         {{ video.snippet.publishedAt | formatUploadDate }}
+      </p>
+      <p class="card-subtitle mb-2 text-muted mobile-channel-title">
+        {{ video.snippet.channelTitle }}
       </p>
       <p class="card-text">{{ video.snippet.description }}</p>
     </div>
@@ -32,10 +35,17 @@ export default {
   },
   methods: {
     onVideoClicked() {
-      this.$router.push({
-        name: "Video",
-        params: { id: this.video.id.videoId }
-      });
+      if (this.video.id.videoId) {
+        this.$router.push({
+          name: "Video",
+          params: { id: this.video.id.videoId }
+        });
+      } else {
+        this.$router.push({
+          name: "Video",
+          params: { id: this.video.snippet.resourceId.videoId }
+        });
+      }
     }
   }
 };
@@ -93,10 +103,29 @@ $mobile: 640px;
   display: inline-block;
   position: relative;
 }
+.mobile-channel-title {
+  display: none;
+}
 @media (max-width: $mobile) {
   .item-container {
     width: 99%;
     padding: 0 0 5px 5px;
+  }
+  .card-title {
+    font-size: 13px;
+    margin: 0 0 0 2px;
+  }
+  .card-text {
+    display: none;
+  }
+  .desktop-channel-title {
+    display: none;
+  }
+  .mobile-channel-title {
+    display: block;
+  }
+  .number-of-videos {
+    font-size: 3vw;
   }
 }
 </style>

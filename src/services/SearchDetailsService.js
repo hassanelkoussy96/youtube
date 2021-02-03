@@ -1,6 +1,7 @@
 import API from "../API";
+import constants from "../../constants";
 
-const key = "AIzaSyDzfj0UMKAesKB3EVdx2Xm444lLKmhxAtY";
+const key = constants.VUE_APP_API_KEY;
 const baseVideosSearchUrl = "videos?";
 const basePlaylistsSearchUrl = "playlists?";
 const baseChannelsSearchUrl = "channels?";

@@ -16,6 +16,7 @@ import moment from "moment";
 import "./utils/DateTimeFormattingService";
 import Embed from "v-video-embed";
 
+
 library.add(faYoutube, faSearch, faTimes, faFilter, faBars);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

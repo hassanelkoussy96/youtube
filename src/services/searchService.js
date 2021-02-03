@@ -1,6 +1,7 @@
 import API from "../API";
+import constants from "../../constants";
 
-const key = "AIzaSyDzfj0UMKAesKB3EVdx2Xm444lLKmhxAtY";
+const key = constants.VUE_APP_API_KEY;
 const baseSearchUrl = "search?";
 let api = {
   q: "",
@@ -30,7 +31,9 @@ export default class SearchService {
       ? (api.uploadDate = value)
       : filterType === "type"
       ? (api.type = value)
-      : (api.order = value);
+      : filterType === "order"
+      ? (api.order = value)
+      : (api.maxResults = value);
     return this.doSearch();
   }
 

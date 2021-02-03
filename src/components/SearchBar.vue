@@ -10,7 +10,7 @@
       <font-awesome-icon :icon="['fab', 'youtube']" class="mobile-logo" />
       <label
         v-bind:class="{
-          'search-field-container-mobile': viewSearchField
+          'search-field-container-mobile': hideSearchField
         }"
       >
         <input
@@ -24,7 +24,8 @@
           <font-awesome-icon icon="search" class="search-button-icon" />
         </button>
       </label>
-      <p v-if="viewSearchField" class="youtube-text">YouTube</p>
+      <p v-if="hideSearchField && !searchString" class="youtube-text">YouTube</p>
+      <p v-if="hideSearchField && searchString" class="youtube-text">{{searchString}}</p>
       <font-awesome-icon
         icon="search"
         class="mobile-search-icon"
@@ -40,12 +41,12 @@ export default {
   data() {
     return {
       searchString: null,
-      viewSearchField: true
+      hideSearchField: true
     };
   },
   methods: {
     showSearchFieldMobile() {
-      this.viewSearchField = !this.viewSearchField;
+      this.hideSearchField = !this.hideSearchField;
     },
     search(searchString) {
       if (this.$router.currentRoute.name === "Search") {

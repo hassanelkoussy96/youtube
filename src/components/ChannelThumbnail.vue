@@ -1,11 +1,7 @@
 <template>
   <div v-if="channelDetails && channel" class="item-container">
     <div class="img-container">
-      <a
-        :href="'https://www.youtube.com/watch?v=' + channel.id.videoId"
-        target="_blank"
-        class="card-img"
-      >
+      <a target="_blank" class="card-img" v-on:click="onChannelClicked">
         <img
           class="card-img-top"
           :src="channel.snippet.thumbnails.medium.url"
@@ -15,10 +11,12 @@
     </div>
     <div class="card-body">
       <h6 class="card-title">{{ channel.snippet.title }}</h6>
-      <p class="card-subtitle mb-2 text-muted">
+      <p class="card-subtitle mb-2 text-muted desktop-channel-title">
         {{ channel.snippet.channelTitle }} |
         {{ channel.snippet.publishedAt | formatUploadDate }}
       </p>
+      <p class="card-subtitle mb-2 text-muted mobile-channel-title">
+        {{ channel.snippet.channelTitle }}
       <p class="card-text">{{ channel.snippet.description }}</p>
     </div>
   </div>
@@ -30,6 +28,14 @@ export default {
   props: {
     channel: Object,
     channelDetails: Object
+  },
+  methods: {
+    onChannelClicked() {
+      this.$router.push({
+        name: "Channel",
+        params: { id: this.channel.id.channelId }
+      });
+    }
   }
 };
 </script>
@@ -90,6 +96,19 @@ $mobile: 640px;
   .item-container {
     width: 99%;
     padding: 0 0 5px 5px;
+  }
+  .card-title {
+    font-size: 13px;
+    margin: 0 0 0 2px;
+  }
+  .card-text {
+    display: none;
+  }
+  .desktop-channel-title {
+    display: none;
+  }
+  .mobile-channel-title {
+    display: block;
   }
 }
 </style>

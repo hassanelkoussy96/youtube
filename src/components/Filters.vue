@@ -46,7 +46,7 @@
         <div v-bind:key="row.id" v-for="row of sortByRows">
           <h6
             class="table-body-data"
-            v-on:click="onFilterChange('sortingBy', row.id)"
+            v-on:click="onFilterChange('order', row.id)"
             v-bind:class="{
               'selected-filter': row.id === selectedSortingFilter
             }"

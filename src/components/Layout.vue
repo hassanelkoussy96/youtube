@@ -5,16 +5,13 @@
 </template>
 
 <script>
-import NavBar from "../components/SearchBar";
+import NavBar from "./SearchBar";
 
 export default {
   name: "Layout",
   components: {
     NavBar
   }
-  // props: {
-  //     msg: String
-  // }
 };
 </script>
 
